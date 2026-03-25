@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arkib Mistik - Koleksi Kisah Seram</title>
+    <title>Arkib Mistik - Portal Kisah Seram</title>
     <style>
         :root {
             --blood-red: #8b0000;
@@ -24,7 +24,23 @@
             padding: 40px 20px;
         }
 
-        /* Input Section dengan LED Glow */
+        /* BAHAGIAN AMARAN */
+        .warning-box {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid var(--bright-red);
+            color: var(--bright-red);
+            padding: 15px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+        }
+
         .input-section {
             background: var(--card-bg);
             width: 100%;
@@ -42,66 +58,81 @@
             color: var(--bright-red);
             letter-spacing: 5px;
             margin-top: 0;
-            text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
         }
 
         .field { margin-bottom: 15px; }
-        label { display: block; font-size: 11px; text-transform: uppercase; color: #666; margin-bottom: 5px; font-weight: bold; }
+        .row { display: flex; gap: 10px; margin-bottom: 15px; }
+        .row .field { flex: 1; margin-bottom: 0; }
+        
+        label { display: block; font-size: 11px; text-transform: uppercase; color: #777; margin-bottom: 5px; font-weight: bold; }
 
         input, textarea {
             width: 100%; padding: 12px; background: #080808; border: 1px solid #222;
-            color: #fff; box-sizing: border-box; font-size: 15px; transition: 0.3s;
+            color: #fff; box-sizing: border-box; font-size: 14px; transition: 0.3s;
         }
 
-        input:focus, textarea:focus { border-color: var(--bright-red); box-shadow: 0 0 10px rgba(255, 0, 0, 0.3); outline: none; }
+        input:focus, textarea:focus { border-color: var(--bright-red); outline: none; }
 
         button.btn-save {
             width: 100%; padding: 15px; background: var(--blood-red); color: white; border: none;
             font-weight: bold; text-transform: uppercase; cursor: pointer; transition: 0.4s; letter-spacing: 2px;
         }
 
-        button.btn-save:hover { background: var(--bright-red); box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
+        button.btn-save:hover { background: var(--bright-red); box-shadow: 0 0 20px rgba(255, 0, 0, 0.6); }
 
-        /* Archive Section */
         .archive-section { width: 100%; max-width: 600px; }
         .archive-title { border-bottom: 1px solid #222; padding-bottom: 10px; margin-bottom: 20px; color: #555; display: flex; justify-content: space-between; }
 
         .story-card {
             background: #121212; padding: 25px; border-radius: 4px; margin-bottom: 20px;
-            border: 1px solid #1a1a1a; border-left: 4px solid #333; position: relative; transition: 0.3s;
+            border: 1px solid #1a1a1a; border-left: 4px solid #333; position: relative;
         }
 
-        .story-card:hover { border-left-color: var(--bright-red); background: #181818; }
+        .story-card.pinned { border-left-color: var(--bright-red); background: #1a0505; box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
 
-        .owner-tag { color: var(--bright-red); font-weight: bold; font-size: 15px; display: block; }
-        
-        /* Gaya Tarikh */
-        .date-tag { color: #555; font-size: 11px; margin-bottom: 12px; display: block; font-family: monospace; }
-
+        .owner-tag { color: var(--bright-red); font-weight: bold; font-size: 14px; }
+        .location-tag { color: #888; font-size: 11px; display: block; margin-top: 2px; }
+        .date-tag { color: #444; font-size: 10px; display: block; margin-bottom: 10px; }
         .story-text { font-family: 'Georgia', serif; line-height: 1.8; color: var(--text-gray); white-space: pre-wrap; margin-top: 10px; }
 
-        .btn-delete {
-            position: absolute; top: 15px; right: 15px; background: transparent;
-            color: #444; border: 1px solid #333; padding: 4px 10px; font-size: 10px; cursor: pointer;
-        }
-        .btn-delete:hover { background: #ff0000; color: white; border-color: #ff0000; }
-
-        .empty-msg { text-align: center; color: #333; margin-top: 40px; font-style: italic; }
+        .action-btns { position: absolute; top: 15px; right: 15px; display: flex; gap: 5px; }
+        .btn-action { background: transparent; color: #444; border: 1px solid #333; padding: 4px 8px; font-size: 10px; cursor: pointer; }
+        .btn-pin.active { color: #ffcc00; border-color: #ffcc00; }
     </style>
 </head>
 <body>
+
+    <div class="warning-box">
+        ⚠️ AMARAN: HANYA KEGUNAAN MALAYSIA SAHAJA. PENGGUNAAN VPN ADALAH DILARANG KERAS. TINDAKAN TEGAS BOLEH DIKENAKAN.
+    </div>
 
     <div class="input-section">
         <h1>PORTAL MISTIK</h1>
         
         <div class="field">
             <label>Nama Pemilik (Owner)</label>
-            <input type="text" id="ownerInput" placeholder="Siapa saksi kejadian?">
+            <input type="text" id="ownerInput" placeholder="Saksi kejadian...">
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label>Kampung</label>
+                <input type="text" id="villageInput" placeholder="Contoh: Kg. Baru">
+            </div>
+            <div class="field">
+                <label>Daerah</label>
+                <input type="text" id="districtInput" placeholder="Contoh: Gombak">
+            </div>
+            <div class="field">
+                <label>Negeri</label>
+                <input type="text" id="stateInput" placeholder="Contoh: Selangor">
+            </div>
         </div>
 
         <div class="field">
             <label>Kisah Seram</label>
-            <textarea id="storyInput" rows="6" placeholder="Ceritakan detik mencemaskan itu..."></textarea>
+            <textarea id="storyInput" rows="5" placeholder="Ceritakan detik mencemaskan itu..."></textarea>
         </div>
 
         <button class="btn-save" onclick="simpanKisah()">Simpan ke Arkib</button>
@@ -120,16 +151,18 @@
 
         function simpanKisah() {
             const owner = document.getElementById('ownerInput').value;
+            const village = document.getElementById('villageInput').value;
+            const district = document.getElementById('districtInput').value;
+            const state = document.getElementById('stateInput').value;
             const story = document.getElementById('storyInput').value;
 
-            if (!owner || !story) {
-                alert("Jangan biarkan ia kosong...");
+            if (!owner || !story || !state) {
+                alert("Sila lengkapkan maklumat wajib (Nama, Negeri, Kisah).");
                 return;
             }
 
-            // Jana Tarikh & Masa
-            const sekarang = new Date();
-            const tarikhFormat = sekarang.toLocaleString('ms-MY', { 
+            const kini = new Date();
+            const tarikhFormat = kini.toLocaleString('ms-MY', { 
                 day: '2-digit', month: '2-digit', year: 'numeric', 
                 hour: '2-digit', minute: '2-digit', hour12: true 
             });
@@ -137,16 +170,18 @@
             const kisahBaru = {
                 id: Date.now(),
                 nama: owner,
+                lokasi: `${village}, ${district}, ${state}`,
                 teks: story,
-                tarikh: tarikhFormat
+                waktu: tarikhFormat,
+                isPinned: false
             };
 
             let senaraiKisah = JSON.parse(localStorage.getItem('arkibSeram')) || [];
             senaraiKisah.unshift(kisahBaru);
             localStorage.setItem('arkibSeram', JSON.stringify(senaraiKisah));
 
-            document.getElementById('ownerInput').value = '';
-            document.getElementById('storyInput').value = '';
+            // Reset Fields
+            document.querySelectorAll('input, textarea').forEach(el => el.value = '');
             muatTurunKisah();
         }
 
@@ -155,36 +190,42 @@
             const countTag = document.getElementById('countTag');
             let senaraiKisah = JSON.parse(localStorage.getItem('arkibSeram')) || [];
 
+            senaraiKisah.sort((a, b) => b.isPinned - a.isPinned);
             listDiv.innerHTML = '';
             countTag.innerText = `${senaraiKisah.length} kisah`;
 
-            if (senaraiKisah.length === 0) {
-                listDiv.innerHTML = '<p class="empty-msg">Tiada rekod buat masa ini...</p>';
-                return;
-            }
-
             senaraiKisah.forEach(kisah => {
                 const card = document.createElement('div');
-                card.className = 'story-card';
+                card.className = `story-card ${kisah.isPinned ? 'pinned' : ''}`;
                 card.innerHTML = `
                     <span class="owner-tag">${kisah.nama}</span>
-                    <span class="date-tag">Direkodkan pada: ${kisah.tarikh}</span>
+                    <span class="location-tag">📍 ${kisah.lokasi}</span>
+                    <span class="date-tag">🕒 ${kisah.waktu}</span>
                     <div class="story-text">${kisah.teks}</div>
-                    <button class="btn-delete" onclick="padamKisah(${kisah.id})">PADAM</button>
+                    <div class="action-btns">
+                        <button class="btn-action btn-pin ${kisah.isPinned ? 'active' : ''}" onclick="togglePin(${kisah.id})">PIN</button>
+                        <button class="btn-action" onclick="padamKisah(${kisah.id})">PADAM</button>
+                    </div>
                 `;
                 listDiv.appendChild(card);
             });
         }
 
+        function togglePin(id) {
+            let senaraiKisah = JSON.parse(localStorage.getItem('arkibSeram'));
+            const idx = senaraiKisah.findIndex(k => k.id === id);
+            senaraiKisah[idx].isPinned = !senaraiKisah[idx].isPinned;
+            localStorage.setItem('arkibSeram', JSON.stringify(senaraiKisah));
+            muatTurunKisah();
+        }
+
         function padamKisah(id) {
-            if (confirm("Hapuskan rekod ini dari pangkalan data?")) {
-                let senaraiKisah = JSON.parse(localStorage.getItem('arkibSeram')) || [];
-                senaraiKisah = senaraiKisah.filter(k => k.id !== id);
+            if (confirm("Padam rekod ini?")) {
+                let senaraiKisah = JSON.parse(localStorage.getItem('arkibSeram')).filter(k => k.id !== id);
                 localStorage.setItem('arkibSeram', JSON.stringify(senaraiKisah));
                 muatTurunKisah();
             }
         }
     </script>
-
 </body>
 </html>

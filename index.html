@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arkib Kisah Seram Teragung</title>
+    <title>Arkib Mistik - Koleksi Kisah Seram</title>
     <style>
         :root {
             --blood-red: #8b0000;
-            --bright-red: #ff0000; /* Warna LED terang */
+            --bright-red: #ff0000;
             --dark-bg: #050505;
             --card-bg: #111;
             --text-gray: #bbb;
@@ -24,19 +24,15 @@
             padding: 40px 20px;
         }
 
-        /* BAHAGIAN INPUT DENGAN GLOW LED */
+        /* Input Section dengan LED Glow */
         .input-section {
             background: var(--card-bg);
             width: 100%;
             max-width: 600px;
             padding: 30px;
-            border: 1px solid #300; /* Border gelap sikit */
+            border: 1px solid #300;
             border-top: 4px solid var(--bright-red);
-            
-            /* Kesan Glow LED Merah di sekeliling kotak */
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2), 
-                        0 0 40px rgba(255, 0, 0, 0.1);
-            
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.2);
             margin-bottom: 50px;
             border-radius: 4px;
         }
@@ -46,124 +42,48 @@
             color: var(--bright-red);
             letter-spacing: 5px;
             margin-top: 0;
-            /* Kesan Neon pada Tulisan */
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7), 
-                         0 0 20px rgba(255, 0, 0, 0.3);
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
         }
 
         .field { margin-bottom: 15px; }
-        
-        label {
-            display: block;
-            font-size: 11px;
-            text-transform: uppercase;
-            color: #777;
-            margin-bottom: 5px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
+        label { display: block; font-size: 11px; text-transform: uppercase; color: #666; margin-bottom: 5px; font-weight: bold; }
 
         input, textarea {
-            width: 100%;
-            padding: 12px;
-            background: #080808;
-            border: 1px solid #222;
-            color: #fff;
-            box-sizing: border-box;
-            font-size: 15px;
-            transition: 0.3s;
+            width: 100%; padding: 12px; background: #080808; border: 1px solid #222;
+            color: #fff; box-sizing: border-box; font-size: 15px; transition: 0.3s;
         }
 
-        /* Glow bila user klik pada input */
-        input:focus, textarea:focus {
-            border-color: var(--bright-red);
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
-            outline: none;
-        }
+        input:focus, textarea:focus { border-color: var(--bright-red); box-shadow: 0 0 10px rgba(255, 0, 0, 0.3); outline: none; }
 
         button.btn-save {
-            width: 100%;
-            padding: 15px;
-            background: var(--blood-red);
-            color: white;
-            border: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.4s;
-            letter-spacing: 2px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            width: 100%; padding: 15px; background: var(--blood-red); color: white; border: none;
+            font-weight: bold; text-transform: uppercase; cursor: pointer; transition: 0.4s; letter-spacing: 2px;
         }
 
-        button.btn-save:hover { 
-            background: var(--bright-red); 
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
-        }
+        button.btn-save:hover { background: var(--bright-red); box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
 
-        /* Bahagian Paparan Senarai */
-        .archive-section {
-            width: 100%;
-            max-width: 600px;
-        }
-
-        .archive-title {
-            border-bottom: 1px solid #222;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            color: #555;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        /* Archive Section */
+        .archive-section { width: 100%; max-width: 600px; }
+        .archive-title { border-bottom: 1px solid #222; padding-bottom: 10px; margin-bottom: 20px; color: #555; display: flex; justify-content: space-between; }
 
         .story-card {
-            background: #121212;
-            padding: 25px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            border: 1px solid #1a1a1a;
-            border-left: 4px solid #333;
-            position: relative;
-            transition: 0.3s;
+            background: #121212; padding: 25px; border-radius: 4px; margin-bottom: 20px;
+            border: 1px solid #1a1a1a; border-left: 4px solid #333; position: relative; transition: 0.3s;
         }
 
-        .story-card:hover { 
-            border-left-color: var(--bright-red); 
-            background: #181818;
-            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.05);
-        }
+        .story-card:hover { border-left-color: var(--bright-red); background: #181818; }
 
-        .owner-tag {
-            color: var(--bright-red);
-            font-weight: bold;
-            font-size: 14px;
-            display: block;
-            margin-bottom: 8px;
-            text-shadow: 0 0 5px rgba(255,0,0,0.3);
-        }
+        .owner-tag { color: var(--bright-red); font-weight: bold; font-size: 15px; display: block; }
+        
+        /* Gaya Tarikh */
+        .date-tag { color: #555; font-size: 11px; margin-bottom: 12px; display: block; font-family: monospace; }
 
-        .story-text {
-            font-family: 'Georgia', serif;
-            line-height: 1.8;
-            color: var(--text-gray);
-            white-space: pre-wrap;
-        }
+        .story-text { font-family: 'Georgia', serif; line-height: 1.8; color: var(--text-gray); white-space: pre-wrap; margin-top: 10px; }
 
         .btn-delete {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: transparent;
-            color: #444;
-            border: 1px solid #333;
-            padding: 4px 10px;
-            font-size: 10px;
-            cursor: pointer;
-            transition: 0.2s;
+            position: absolute; top: 15px; right: 15px; background: transparent;
+            color: #444; border: 1px solid #333; padding: 4px 10px; font-size: 10px; cursor: pointer;
         }
-
         .btn-delete:hover { background: #ff0000; color: white; border-color: #ff0000; }
 
         .empty-msg { text-align: center; color: #333; margin-top: 40px; font-style: italic; }
@@ -176,7 +96,7 @@
         
         <div class="field">
             <label>Nama Pemilik (Owner)</label>
-            <input type="text" id="ownerInput" placeholder="Saksi kejadian...">
+            <input type="text" id="ownerInput" placeholder="Siapa saksi kejadian?">
         </div>
 
         <div class="field">
@@ -203,14 +123,22 @@
             const story = document.getElementById('storyInput').value;
 
             if (!owner || !story) {
-                alert("Jangan biarkan ruangan kosong.");
+                alert("Jangan biarkan ia kosong...");
                 return;
             }
+
+            // Jana Tarikh & Masa
+            const sekarang = new Date();
+            const tarikhFormat = sekarang.toLocaleString('ms-MY', { 
+                day: '2-digit', month: '2-digit', year: 'numeric', 
+                hour: '2-digit', minute: '2-digit', hour12: true 
+            });
 
             const kisahBaru = {
                 id: Date.now(),
                 nama: owner,
-                teks: story
+                teks: story,
+                tarikh: tarikhFormat
             };
 
             let senaraiKisah = JSON.parse(localStorage.getItem('arkibSeram')) || [];
@@ -231,7 +159,7 @@
             countTag.innerText = `${senaraiKisah.length} kisah`;
 
             if (senaraiKisah.length === 0) {
-                listDiv.innerHTML = '<p class="empty-msg">Tiada catatan ditemui... buat masa ini.</p>';
+                listDiv.innerHTML = '<p class="empty-msg">Tiada rekod buat masa ini...</p>';
                 return;
             }
 
@@ -239,7 +167,8 @@
                 const card = document.createElement('div');
                 card.className = 'story-card';
                 card.innerHTML = `
-                    <span class="owner-tag">Oleh: ${kisah.nama}</span>
+                    <span class="owner-tag">${kisah.nama}</span>
+                    <span class="date-tag">Direkodkan pada: ${kisah.tarikh}</span>
                     <div class="story-text">${kisah.teks}</div>
                     <button class="btn-delete" onclick="padamKisah(${kisah.id})">PADAM</button>
                 `;
@@ -248,7 +177,7 @@
         }
 
         function padamKisah(id) {
-            if (confirm("Padam kisah ini dari ingatan?")) {
+            if (confirm("Hapuskan rekod ini dari pangkalan data?")) {
                 let senaraiKisah = JSON.parse(localStorage.getItem('arkibSeram')) || [];
                 senaraiKisah = senaraiKisah.filter(k => k.id !== id);
                 localStorage.setItem('arkibSeram', JSON.stringify(senaraiKisah));

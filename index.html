@@ -32,7 +32,7 @@
             width: 100%;
             max-width: 600px;
             text-align: center;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             text-transform: uppercase;
             margin-bottom: 20px;
@@ -60,201 +60,129 @@
             text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
         }
 
-        .field { margin-bottom: 15px; }
-        .row { display: flex; gap: 10px; margin-bottom: 15px; }
-        .row .field { flex: 1; margin-bottom: 0; }
-        
         label { display: block; font-size: 11px; text-transform: uppercase; color: #777; margin-bottom: 5px; font-weight: bold; }
 
         input, textarea {
             width: 100%; padding: 12px; background: #080808; border: 1px solid #222;
-            color: #fff; box-sizing: border-box; font-size: 14px; transition: 0.3s;
+            color: #fff; box-sizing: border-box; font-size: 14px; transition: 0.3s; margin-bottom: 15px;
         }
 
         input:focus, textarea:focus { border-color: var(--bright-red); outline: none; }
 
-        button.btn-save {
+        .btn-save {
             width: 100%; padding: 15px; background: var(--blood-red); color: white; border: none;
             font-weight: bold; text-transform: uppercase; cursor: pointer; transition: 0.4s; letter-spacing: 2px;
         }
 
-        button.btn-save:hover { background: var(--bright-red); box-shadow: 0 0 20px rgba(255, 0, 0, 0.6); }
+        .btn-save:hover { background: var(--bright-red); box-shadow: 0 0 20px rgba(255, 0, 0, 0.6); }
 
-        .archive-section { width: 100%; max-width: 600px; }
-        .archive-title { border-bottom: 1px solid #222; padding-bottom: 10px; margin-bottom: 20px; color: #555; display: flex; justify-content: space-between; }
-
-        .story-card {
-            background: #121212; padding: 25px; border-radius: 4px; margin-bottom: 20px;
-            border: 1px solid #1a1a1a; border-left: 4px solid #333; position: relative;
+        /* MODAL / POPUP STYLE */
+        #statusPopup {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1a1a1a;
+            padding: 20px;
+            border: 2px solid var(--bright-red);
+            z-index: 1000;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.9);
         }
 
-        .story-card.pinned { border-left-color: var(--bright-red); background: #1a0505; box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
+        .btn-platform {
+            display: block; width: 100%; padding: 10px; margin-top: 10px;
+            background: #333; color: white; border: none; cursor: pointer; text-decoration: none; font-size: 12px;
+        }
 
-        .owner-tag { color: var(--bright-red); font-weight: bold; font-size: 14px; }
-        .location-tag { color: #888; font-size: 11px; display: block; margin-top: 2px; }
-        .date-tag { color: #444; font-size: 10px; display: block; margin-bottom: 10px; }
-        .story-text { font-family: 'Georgia', serif; line-height: 1.8; color: var(--text-gray); white-space: pre-wrap; margin-top: 10px; }
+        .btn-platform:hover { background: #555; }
 
-        .action-btns { position: absolute; top: 15px; right: 15px; display: flex; gap: 5px; }
-        .btn-action { background: transparent; color: #444; border: 1px solid #333; padding: 4px 8px; font-size: 10px; cursor: pointer; }
-        .btn-pin.active { color: #ffcc00; border-color: #ffcc00; }
+        .archive-section { width: 100%; max-width: 600px; }
+        .story-card { background: #121212; padding: 20px; margin-bottom: 15px; border-left: 4px solid #333; position: relative; }
+        .story-text { color: #bbb; white-space: pre-wrap; font-size: 14px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <div class="warning-box">
-        ⚠️ AMARAN: HANYA KEGUNAAN MALAYSIA SAHAJA. PENGGUNAAN VPN ADALAH DILARANG KERAS.
+        ⚠️ AMARAN: TEKS BERJAYA DIHASILKAN. SILA HANTAR KE PLATFORM RASMI: THISISZIKRI2024
     </div>
 
     <div class="input-section">
         <h1>PORTAL MISTIK</h1>
         
-        <div class="field">
-            <label>Nama Pemilik (Owner)</label>
-            <input type="text" id="ownerInput" placeholder="Saksi kejadian...">
-        </div>
+        <label>Nama Pemilik</label>
+        <input type="text" id="ownerInput" placeholder="Nama anda...">
 
-        <div class="row">
-            <div class="field">
-                <label>Kampung</label>
-                <input type="text" id="villageInput" placeholder="Kampung...">
-            </div>
-            <div class="field">
-                <label>Daerah</label>
-                <input type="text" id="districtInput" placeholder="Daerah...">
-            </div>
-            <div class="field">
-                <label>Negeri</label>
-                <input type="text" id="stateInput" placeholder="Negeri...">
-            </div>
-        </div>
+        <label>Negeri</label>
+        <input type="text" id="stateInput" placeholder="Contoh: Selangor">
 
-        <div class="field">
-            <label>Kisah Seram</label>
-            <textarea id="storyInput" rows="5" placeholder="Ceritakan detik mencemaskan itu..."></textarea>
-        </div>
+        <label>Kisah Seram</label>
+        <textarea id="storyInput" rows="5" placeholder="Ceritakan..."></textarea>
 
-        <button class="btn-save" onclick="simpanKisah()">Simpan & Muat Turun</button>
+        <button class="btn-save" onclick="simpanDanProses()">Simpan & Hantar</button>
     </div>
 
-    <div class="archive-section">
-        <div class="archive-title">
-            <span>Senarai Catatan</span>
-            <small id="countTag">0 kisah</small>
-        </div>
-        <div id="storyList"></div>
+    <div id="statusPopup">
+        <p style="color: #00ff00; font-weight: bold;">✅ FAIL TELAH DIMUAT TURUN!</p>
+        <p style="font-size: 12px;">Sila hantar teks ini kepada <b>thisiszikri2024</b> melalui:</p>
+        <a id="tgLink" class="btn-platform" target="_blank">KIRIM KE TELEGRAM</a>
+        <a id="waLink" class="btn-platform" target="_blank">KIRIM KE WHATSAPP</a>
+        <button class="btn-platform" onclick="tutupPopup()" style="background: var(--blood-red);">TUTUP</button>
     </div>
+
+    <div class="archive-section" id="storyList"></div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', muatPaparanKisah);
-
-        function simpanKisah() {
+        function simpanDanProses() {
             const owner = document.getElementById('ownerInput').value;
-            const village = document.getElementById('villageInput').value;
-            const district = document.getElementById('districtInput').value;
             const state = document.getElementById('stateInput').value;
             const story = document.getElementById('storyInput').value;
 
-            if (!owner || !story || !state) {
-                alert("Sila lengkapkan maklumat wajib (Nama, Negeri, Kisah).");
+            if (!owner || !story) {
+                alert("Sila isi nama dan kisah.");
                 return;
             }
 
-            const kini = new Date();
-            const tarikhFormat = kini.toLocaleString('ms-MY', { 
-                day: '2-digit', month: '2-digit', year: 'numeric', 
-                hour: '2-digit', minute: '2-digit', hour12: true 
-            });
-
-            const kisahBaru = {
-                id: Date.now(),
+            const data = {
                 nama: owner,
-                lokasi: `${village}, ${district}, ${state}`,
+                lokasi: state,
                 teks: story,
-                waktu: tarikhFormat,
-                isPinned: false
+                waktu: new Date().toLocaleString()
             };
 
-            // Simpan ke LocalStorage
-            let senaraiKisah = JSON.parse(localStorage.getItem('arkibSeram')) || [];
-            senaraiKisah.unshift(kisahBaru);
-            localStorage.setItem('arkibSeram', JSON.stringify(senaraiKisah));
+            // 1. Muat turun fail secara automatik
+            muatTurunTxt(data);
 
-            // PENGESAHAN & MUAT TURUN FAIL
-            muatTurunFail(kisahBaru);
+            // 2. Sediakan link ke platform rasmi (thisiszikri2024)
+            const mesejRasmi = encodeURIComponent(`SALAM ZIKRI. INI KISAH MISTIK SAYA:\n\nNama: ${data.nama}\nNegeri: ${data.lokasi}\nKisah: ${data.teks}`);
+            
+            // Telegram (Biasanya handle digunakan terus)
+            document.getElementById('tgLink').href = `https://t.me/thisiszikri2024?text=${mesejRasmi}`;
+            
+            // WhatsApp (Jika anda ada nombor, gantikan 60123456789 di bawah)
+            document.getElementById('waLink').href = `https://wa.me/?text=${mesejRasmi}`;
 
-            // Reset Fields & Refresh View
-            document.querySelectorAll('input, textarea').forEach(el => el.value = '');
-            muatPaparanKisah();
+            // 3. Papar Popup
+            document.getElementById('statusPopup').style.display = 'block';
+
+            // Reset input
+            document.getElementById('ownerInput').value = '';
+            document.getElementById('storyInput').value = '';
         }
 
-        // FUNGSI BARU: Auto-download fail .txt untuk setiap entri
-        function muatTurunFail(data) {
-            const tajukFail = `Kisah_${data.nama.replace(/\s+/g, '_')}_${Date.now()}.txt`;
-            const kandungan = `
-ARKIB MISTIK - LAPORAN KES
---------------------------
-ID KES    : ${data.id}
-TARIKH    : ${data.waktu}
-PEMILIK   : ${data.nama}
-LOKASI    : ${data.lokasi}
-
-KISAH:
-${data.teks}
-
---------------------------
-DOKUMEN INI DIJANA SECARA AUTOMATIK.
-            `;
-
+        function muatTurunTxt(data) {
+            const kandungan = `LAPORAN MISTIK\n----------------\nOleh: ${data.nama}\nNegeri: ${data.lokasi}\nTarikh: ${data.waktu}\n\nKISAH:\n${data.teks}`;
             const blob = new Blob([kandungan], { type: 'text/plain' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = tajukFail;
-            document.body.appendChild(link);
+            link.download = `Kisah_${data.nama}.txt`;
             link.click();
-            document.body.removeChild(link);
         }
 
-        function muatPaparanKisah() {
-            const listDiv = document.getElementById('storyList');
-            const countTag = document.getElementById('countTag');
-            let senaraiKisah = JSON.parse(localStorage.getItem('arkibSeram')) || [];
-
-            senaraiKisah.sort((a, b) => b.isPinned - a.isPinned);
-            listDiv.innerHTML = '';
-            countTag.innerText = `${senaraiKisah.length} kisah`;
-
-            senaraiKisah.forEach(kisah => {
-                const card = document.createElement('div');
-                card.className = `story-card ${kisah.isPinned ? 'pinned' : ''}`;
-                card.innerHTML = `
-                    <span class="owner-tag">${kisah.nama}</span>
-                    <span class="location-tag">📍 ${kisah.lokasi}</span>
-                    <span class="date-tag">🕒 ${kisah.waktu}</span>
-                    <div class="story-text">${kisah.teks}</div>
-                    <div class="action-btns">
-                        <button class="btn-action btn-pin ${kisah.isPinned ? 'active' : ''}" onclick="togglePin(${kisah.id})">PIN</button>
-                        <button class="btn-action" onclick="padamKisah(${kisah.id})">PADAM</button>
-                    </div>
-                `;
-                listDiv.appendChild(card);
-            });
-        }
-
-        function togglePin(id) {
-            let senaraiKisah = JSON.parse(localStorage.getItem('arkibSeram'));
-            const idx = senaraiKisah.findIndex(k => k.id === id);
-            senaraiKisah[idx].isPinned = !senaraiKisah[idx].isPinned;
-            localStorage.setItem('arkibSeram', JSON.stringify(senaraiKisah));
-            muatPaparanKisah();
-        }
-
-        function padamKisah(id) {
-            if (confirm("Padam rekod ini?")) {
-                let senaraiKisah = JSON.parse(localStorage.getItem('arkibSeram')).filter(k => k.id !== id);
-                localStorage.setItem('arkibSeram', JSON.stringify(senaraiKisah));
-                muatPaparanKisah();
-            }
+        function tutupPopup() {
+            document.getElementById('statusPopup').style.display = 'none';
         }
     </script>
 </body>

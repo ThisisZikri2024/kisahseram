@@ -24,7 +24,6 @@
             padding: 40px 20px;
         }
 
-        /* BAHAGIAN AMARAN */
         .warning-box {
             background: rgba(255, 0, 0, 0.1);
             border: 1px solid var(--bright-red);
@@ -104,7 +103,7 @@
 <body>
 
     <div class="warning-box">
-        ⚠️ AMARAN: HANYA KEGUNAAN MALAYSIA SAHAJA. PENGGUNAAN VPN ADALAH DILARANG KERAS. TINDAKAN TEGAS BOLEH DIKENAKAN.
+        ⚠️ AMARAN: HANYA KEGUNAAN MALAYSIA SAHAJA. PENGGUNAAN VPN ADALAH DILARANG KERAS.
     </div>
 
     <div class="input-section">
@@ -118,15 +117,15 @@
         <div class="row">
             <div class="field">
                 <label>Kampung</label>
-                <input type="text" id="villageInput" placeholder="Contoh: Kg. Baru">
+                <input type="text" id="villageInput" placeholder="Kampung...">
             </div>
             <div class="field">
                 <label>Daerah</label>
-                <input type="text" id="districtInput" placeholder="Contoh: Gombak">
+                <input type="text" id="districtInput" placeholder="Daerah...">
             </div>
             <div class="field">
                 <label>Negeri</label>
-                <input type="text" id="stateInput" placeholder="Contoh: Selangor">
+                <input type="text" id="stateInput" placeholder="Negeri...">
             </div>
         </div>
 
@@ -135,7 +134,7 @@
             <textarea id="storyInput" rows="5" placeholder="Ceritakan detik mencemaskan itu..."></textarea>
         </div>
 
-        <button class="btn-save" onclick="simpanKisah()">Simpan ke Arkib</button>
+        <button class="btn-save" onclick="simpanKisah()">Simpan & Muat Turun</button>
     </div>
 
     <div class="archive-section">
@@ -147,7 +146,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', muatTurunKisah);
+        document.addEventListener('DOMContentLoaded', muatPaparanKisah);
 
         function simpanKisah() {
             const owner = document.getElementById('ownerInput').value;
@@ -176,16 +175,47 @@
                 isPinned: false
             };
 
+            // Simpan ke LocalStorage
             let senaraiKisah = JSON.parse(localStorage.getItem('arkibSeram')) || [];
             senaraiKisah.unshift(kisahBaru);
             localStorage.setItem('arkibSeram', JSON.stringify(senaraiKisah));
 
-            // Reset Fields
+            // PENGESAHAN & MUAT TURUN FAIL
+            muatTurunFail(kisahBaru);
+
+            // Reset Fields & Refresh View
             document.querySelectorAll('input, textarea').forEach(el => el.value = '');
-            muatTurunKisah();
+            muatPaparanKisah();
         }
 
-        function muatTurunKisah() {
+        // FUNGSI BARU: Auto-download fail .txt untuk setiap entri
+        function muatTurunFail(data) {
+            const tajukFail = `Kisah_${data.nama.replace(/\s+/g, '_')}_${Date.now()}.txt`;
+            const kandungan = `
+ARKIB MISTIK - LAPORAN KES
+--------------------------
+ID KES    : ${data.id}
+TARIKH    : ${data.waktu}
+PEMILIK   : ${data.nama}
+LOKASI    : ${data.lokasi}
+
+KISAH:
+${data.teks}
+
+--------------------------
+DOKUMEN INI DIJANA SECARA AUTOMATIK.
+            `;
+
+            const blob = new Blob([kandungan], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = tajukFail;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function muatPaparanKisah() {
             const listDiv = document.getElementById('storyList');
             const countTag = document.getElementById('countTag');
             let senaraiKisah = JSON.parse(localStorage.getItem('arkibSeram')) || [];
@@ -216,14 +246,14 @@
             const idx = senaraiKisah.findIndex(k => k.id === id);
             senaraiKisah[idx].isPinned = !senaraiKisah[idx].isPinned;
             localStorage.setItem('arkibSeram', JSON.stringify(senaraiKisah));
-            muatTurunKisah();
+            muatPaparanKisah();
         }
 
         function padamKisah(id) {
             if (confirm("Padam rekod ini?")) {
                 let senaraiKisah = JSON.parse(localStorage.getItem('arkibSeram')).filter(k => k.id !== id);
                 localStorage.setItem('arkibSeram', JSON.stringify(senaraiKisah));
-                muatTurunKisah();
+                muatPaparanKisah();
             }
         }
     </script>
